@@ -1,0 +1,791 @@
+<!DOCTYPE html>
+<html lang="hi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Happy Diwali</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        width: 100vw;
+        height: 100vh;
+        overflow: hidden;
+        background: #000;
+        font-family: "Georgia", serif;
+      }
+
+      #container {
+        position: relative;
+        width: 100%;
+        height: 100%;
+      }
+
+      /* Shop Background */
+      #shop-bg {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        opacity: 0;
+      }
+
+      /* Black Overlay */
+      #overlay {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.8);
+        opacity: 0;
+        pointer-events: none;
+      }
+
+      /* Mithai Items */
+      .mithai {
+        position: absolute;
+        width: 120px;
+        height: 120px;
+        object-fit: contain;
+        opacity: 0;
+        z-index: 10;
+      }
+
+      /* Flowers */
+      .flower {
+        position: absolute;
+        width: 60px;
+        height: 60px;
+        object-fit: contain;
+        opacity: 0;
+        z-index: 11;
+      }
+
+      /* Diyas */
+      .diya {
+        position: absolute;
+        width: 50px;
+        height: 50px;
+        object-fit: contain;
+        opacity: 0;
+        z-index: 11;
+      }
+
+      /* Pooja Thali */
+      #thali {
+        position: absolute;
+        width: 150px;
+        height: 150px;
+        object-fit: contain;
+        opacity: 0;
+        z-index: 11;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+      }
+
+      /* Laxmi Mata */
+      #laxmi {
+        position: absolute;
+        width: 250px;
+        height: 250px;
+        object-fit: contain;
+        opacity: 0;
+        z-index: 12;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+      }
+
+      /* Fireworks Video */
+      #fireworks-video {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        opacity: 0;
+        z-index: 5;
+      }
+
+      /* Final Text */
+      #final-text {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        opacity: 0;
+        z-index: 20;
+      }
+
+      #final-text h1 {
+        font-size: 80px;
+        color: #ffd700;
+        text-shadow: 0 0 20px #ff6b00, 0 0 40px #ff6b00;
+        margin-bottom: 30px;
+        text-align: center;
+      }
+
+      #final-text p {
+        font-size: 35px;
+        color: #fff;
+        text-align: center;
+        text-shadow: 0 0 20px #ffffff, 0 0 40px #ffffff;
+        line-height: 1.6;
+        max-width: 80%;
+      }
+
+      /* Canvas for particle fireworks */
+      #fireworks-canvas {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        opacity: 0;
+        z-index: 6;
+      }
+      /* Responsive CSS for Mobile Devices */
+      @media screen and (max-width: 768px) {
+        /* Mithai Items - Smaller size */
+        .mithai {
+          width: 70px !important;
+          height: 70px !important;
+        }
+
+        /* Flowers - Smaller size */
+        .flower {
+          width: 35px !important;
+          height: 35px !important;
+        }
+
+        /* Diyas - Smaller size */
+        .diya {
+          width: 30px !important;
+          height: 30px !important;
+        }
+
+        /* Pooja Thali - Smaller */
+        #thali {
+          width: 90px !important;
+          height: 90px !important;
+        }
+
+        /* Laxmi Mata - Smaller */
+        #laxmi {
+          width: 150px !important;
+          height: 150px !important;
+        }
+
+        /* Final Text - Smaller font */
+        #final-text h1 {
+          font-size: 45px !important;
+          margin-bottom: 15px !important;
+        }
+
+        #final-text p {
+          font-size: 16px !important;
+          max-width: 95% !important;
+          padding: 0 10px !important;
+        }
+      }
+
+      @media screen and (max-width: 480px) {
+        /* Extra small devices */
+        .mithai {
+          width: 55px !important;
+          height: 55px !important;
+        }
+
+        .flower {
+          width: 28px !important;
+          height: 28px !important;
+        }
+
+        .diya {
+          width: 25px !important;
+          height: 25px !important;
+        }
+
+        #thali {
+          width: 70px !important;
+          height: 70px !important;
+        }
+
+        #laxmi {
+          width: 120px !important;
+          height: 120px !important;
+        }
+
+        #final-text h1 {
+          font-size: 36px !important;
+          margin-bottom: 12px !important;
+        }
+
+        #final-text p {
+          font-size: 14px !important;
+          line-height: 1.4 !important;
+        }
+      }
+
+      @media screen and (orientation: landscape) and (max-height: 500px) {
+        /* Landscape mode for small devices */
+        .mithai {
+          width: 45px !important;
+          height: 45px !important;
+        }
+
+        #laxmi {
+          width: 100px !important;
+          height: 100px !important;
+        }
+
+        #thali {
+          width: 60px !important;
+          height: 60px !important;
+        }
+
+        #final-text h1 {
+          font-size: 30px !important;
+        }
+
+        #final-text p {
+          font-size: 13px !important;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div id="container">
+      <img id="shop-bg" src="assets/shop-bg.png" alt="Shop" />
+      <div id="overlay"></div>
+
+      <!-- Mithai items -->
+      <img class="mithai" id="laddu" src="assets/laddu.png" alt="Laddu" />
+      <img class="mithai" id="barfi" src="assets/barfi.png" alt="Barfi" />
+      <img
+        class="mithai"
+        id="gulabjamun"
+        src="assets/gulabjamun.png"
+        alt="Gulab Jamun"
+      />
+      <img class="mithai" id="jalebi" src="assets/jalebi.png" alt="Jalebi" />
+      <img
+        class="mithai"
+        id="rasgulla"
+        src="assets/rasgulla.png"
+        alt="Rasgulla"
+      />
+      <img
+        class="mithai"
+        id="kajukatli"
+        src="assets/kajukatli.png"
+        alt="Kaju Katli"
+      />
+      <img
+        class="mithai"
+        id="motichoor"
+        src="assets/laddu.png"
+        alt="Motichoor"
+      />
+      <img class="mithai" id="peda" src="assets/peda.png" alt="Peda" />
+
+      <!-- Decorations -->
+      <img id="thali" src="assets/thali.png" alt="Pooja Thali" />
+      <img id="laxmi" src="assets/mata-laxmi.png" alt="Mata Laxmi" />
+
+      <!-- Fireworks -->
+      <video id="fireworks-video" muted>
+        <source src="assets/fireworks.mp4" type="video/mp4" />
+      </video>
+      <canvas id="fireworks-canvas"></canvas>
+
+      <!-- Final text -->
+      <div id="final-text">
+        <h1>दिवाली की हार्दिक शुभकामनाएं</h1>
+        <p>आपकी सभी मनोकामनाएं पूरी हों और <br>जीवन में हर कदम पर सफलता मिले।</p>
+        <p>आपका finanacial ग्राफ चांदी के भाव की <br>तरह हमेशा ऊंचा उठे।</p>
+      </div>
+    </div>
+
+    <script>
+      // Animation Timeline
+      const mithaList = [
+        "laddu",
+        "barfi",
+        "gulabjamun",
+        "jalebi",
+        "rasgulla",
+        "kajukatli",
+        "motichoor",
+        "peda",
+      ];
+      const shopBg = document.getElementById("shop-bg");
+      const overlay = document.getElementById("overlay");
+      const thali = document.getElementById("thali");
+      const laxmi = document.getElementById("laxmi");
+      const fireworksVideo = document.getElementById("fireworks-video");
+      const fireworksCanvas = document.getElementById("fireworks-canvas");
+      const finalText = document.getElementById("final-text");
+
+      let audioContext;
+      const sounds = {};
+
+      // Initialize Audio
+      function initAudio() {
+        audioContext = new (window.AudioContext || window.webkitAudioContext)();
+      }
+
+      // Preload sounds
+      async function loadSound(name, path) {
+        try {
+          const response = await fetch(path);
+          const arrayBuffer = await response.arrayBuffer();
+          const audioBuffer = await audioContext.decodeAudioData(arrayBuffer);
+          sounds[name] = audioBuffer;
+        } catch (e) {
+          console.log(`Could not load ${path}`);
+        }
+      }
+
+      function playSound(name) {
+        if (!sounds[name]) return;
+        const source = audioContext.createBufferSource();
+        source.buffer = sounds[name];
+        source.connect(audioContext.destination);
+        source.start(0);
+      }
+
+      // Preload all sounds
+      async function preloadSounds() {
+        initAudio();
+        await Promise.all([
+          loadSound("bg", "assets/bg-music.mp3"),
+          loadSound("laddu", "assets/laddu.mp3"),
+          loadSound("barfi", "assets/barfi.mp3"),
+          loadSound("gulabjamun", "assets/kajukatli.mp3"),
+          loadSound("jalebi", "assets/jalebi.mp3"),
+          loadSound("rasgulla", "assets/rasgulla.mp3"),
+          loadSound("kajukatli", "assets/kajukatli.mp3"),
+          loadSound("motichoor", "assets/laddu.mp3"),
+          loadSound("peda", "assets/peda.mp3"),
+          loadSound("flower", "assets/flower-tring.mp3"),
+          loadSound("diya", "assets/diya-ting.mp3"),
+          loadSound("whoosh", "assets/whoosh.mp3"),
+          loadSound("happy", "assets/happy-diwali.mp3"),
+          loadSound("fireworks", "assets/fireworks.mp3"),
+        ]);
+      }
+
+      function wait(ms) {
+        return new Promise((resolve) => setTimeout(resolve, ms));
+      }
+
+      function animate(element, props, duration) {
+        return new Promise((resolve) => {
+          const startTime = performance.now();
+          const startProps = {};
+
+          for (let prop in props) {
+            if (prop === "opacity") {
+              startProps[prop] =
+                parseFloat(getComputedStyle(element).opacity) || 0;
+            } else if (prop === "left" || prop === "top") {
+              startProps[prop] =
+                parseFloat(getComputedStyle(element)[prop]) || 0;
+            } else if (prop === "scale") {
+              const transform = getComputedStyle(element).transform;
+              if (transform && transform !== "none") {
+                const matrix = transform.match(/matrix.*\((.+)\)/);
+                if (matrix) {
+                  const values = matrix[1].split(", ");
+                  startProps[prop] = parseFloat(values[0]) || 1;
+                } else {
+                  startProps[prop] = 1;
+                }
+              } else {
+                startProps[prop] = 1;
+              }
+            }
+          }
+
+          function step(currentTime) {
+            const elapsed = currentTime - startTime;
+            const progress = Math.min(elapsed / duration, 1);
+            const eased =
+              progress < 0.5
+                ? 2 * progress * progress
+                : -1 + (4 - 2 * progress) * progress;
+
+            for (let prop in props) {
+              const start = startProps[prop];
+              const end = props[prop];
+              const current = start + (end - start) * eased;
+
+              if (prop === "opacity") {
+                element.style.opacity = current;
+              } else if (prop === "left" || prop === "top") {
+                element.style[prop] = current + "px";
+              } else if (prop === "scale") {
+                const currentTransform = element.style.transform
+                  .replace(/scale\([^)]*\)/, "")
+                  .trim();
+                element.style.transform =
+                  `${currentTransform} scale(${current})`.trim();
+              }
+            }
+
+            if (progress < 1) {
+              requestAnimationFrame(step);
+            } else {
+              resolve();
+            }
+          }
+
+          requestAnimationFrame(step);
+        });
+      }
+
+      // Step 1: Fade in shop background
+      async function showShop() {
+        await animate(shopBg, { opacity: 1 }, 2000);
+        await wait(1000);
+      }
+
+      // Get responsive radius based on screen size
+      function getResponsiveRadius() {
+        const width = window.innerWidth;
+        const height = window.innerHeight;
+        const minDimension = Math.min(width, height);
+
+        if (width <= 480) {
+          return minDimension * 0.28; // 28% of smaller dimension
+        } else if (width <= 768) {
+          return minDimension * 0.32; // 32% of smaller dimension
+        } else {
+          return 180; // Desktop size
+        }
+      }
+
+      // Get responsive mithai size
+      function getMithaiSize() {
+        const width = window.innerWidth;
+
+        if (width <= 480) {
+          return 55;
+        } else if (width <= 768) {
+          return 70;
+        } else {
+          return 120;
+        }
+      }
+
+      // Step 2: Zoom and show mithai
+      // Step 2: Zoom and show mithai
+      async function showMithai(mithaiName, index, total) {
+        const mithai = document.getElementById(mithaiName);
+        const centerX = window.innerWidth / 2;
+        const centerY = window.innerHeight / 2;
+        const mithaiSize = getMithaiSize();
+
+        // Random corner position
+        const corners = [
+          { x: 50, y: 50 },
+          { x: window.innerWidth - mithaiSize - 50, y: 50 },
+          { x: 50, y: window.innerHeight - mithaiSize - 50 },
+          {
+            x: window.innerWidth - mithaiSize - 50,
+            y: window.innerHeight - mithaiSize - 50,
+          },
+        ];
+        const corner = corners[index % 4];
+
+        // Set initial position
+        mithai.style.left = corner.x + "px";
+        mithai.style.top = corner.y + "px";
+
+        // Zoom background
+        await Promise.all([
+          animate(shopBg, { scale: 1.2 }, 800),
+          animate(mithai, { opacity: 1 }, 600),
+        ]);
+
+        // Play sound
+        playSound(mithaiName);
+
+        // Move to center circle position with responsive radius
+        const angle = (index / total) * 2 * Math.PI;
+        const radius = getResponsiveRadius();
+        const targetX = centerX + Math.cos(angle) * radius - mithaiSize / 2;
+        const targetY = centerY + Math.sin(angle) * radius - mithaiSize / 2;
+
+        await animate(mithai, { left: targetX, top: targetY }, 1000);
+
+        // Show overlay when first mithai reaches center
+        if (index === 0) {
+          await animate(overlay, { opacity: 1 }, 800);
+        }
+
+        // Reset background zoom
+        await animate(shopBg, { scale: 1 }, 800);
+        await wait(300);
+      }
+
+      // Step 3: Show flowers in jhalar pattern
+      async function showFlowers() {
+        playSound("flower");
+        const flowersCount = 25;
+        const flowers = [];
+
+        for (let i = 0; i < flowersCount; i++) {
+          const flower = document.createElement("img");
+          flower.className = "flower";
+          flower.src = "assets/marigold.png";
+          document.getElementById("container").appendChild(flower);
+          flowers.push(flower);
+        }
+
+        // Arrange in jhalar pattern (top border)
+        const promises = flowers.map((flower, i) => {
+          const x = (i / flowersCount) * window.innerWidth;
+          const y = 20 + Math.sin(i * 0.5) * 15;
+
+          flower.style.left = window.innerWidth / 2 + "px";
+          flower.style.top = "-60px";
+
+          return new Promise((resolve) => {
+            setTimeout(() => {
+              animate(flower, { opacity: 1, left: x, top: y }, 800).then(
+                resolve
+              );
+            }, i * 50);
+          });
+        });
+
+        await Promise.all(promises);
+        await wait(500);
+      }
+
+      // Step 4: Show diyas at bottom
+      async function showDiyas() {
+        playSound("diya");
+        const diyasCount = 20;
+        const diyas = [];
+
+        for (let i = 0; i < diyasCount; i++) {
+          const diya = document.createElement("img");
+          diya.className = "diya";
+          diya.src = "assets/diya.png";
+          document.getElementById("container").appendChild(diya);
+          diyas.push(diya);
+        }
+
+        // Arrange at bottom
+        const promises = diyas.map((diya, i) => {
+          const x = (i / diyasCount) * window.innerWidth;
+          const y = window.innerHeight - 60;
+
+          diya.style.left = window.innerWidth / 2 + "px";
+          diya.style.top = window.innerHeight + "px";
+
+          return new Promise((resolve) => {
+            setTimeout(() => {
+              animate(diya, { opacity: 1, left: x, top: y }, 800).then(resolve);
+            }, i * 40);
+          });
+        });
+
+        await Promise.all(promises);
+        await wait(500);
+      }
+
+      // Step 5: Show thali
+      async function showThali() {
+        playSound("whoosh");
+        await animate(thali, { opacity: 1 }, 1000);
+        await wait(500);
+      }
+
+      // Step 6: Blackout and music
+      async function blackout() {
+        await animate(overlay, { opacity: 1 }, 1000);
+        await wait(2000);
+        playSound("happy");
+      }
+
+      // Step 7: Final arrangement with Laxmi
+      // Step 7: Final arrangement with Laxmi
+      async function finalArrangement() {
+        // Show Laxmi first
+        await animate(laxmi, { opacity: 1 }, 1500);
+
+        // Rearrange mithai around Laxmi in tighter circle with responsive radius
+        const centerX = window.innerWidth / 2;
+        const centerY = window.innerHeight / 2;
+        const radius = getResponsiveRadius() * 1.1; // Slightly larger for final arrangement
+        const mithaiSize = getMithaiSize();
+
+        const rearrangePromises = mithaList.map((name, i) => {
+          const mithai = document.getElementById(name);
+          const angle = (i / mithaList.length) * 2 * Math.PI;
+          const x = centerX + Math.cos(angle) * radius - mithaiSize / 2;
+          const y = centerY + Math.sin(angle) * radius - mithaiSize / 2;
+          return animate(mithai, { left: x, top: y }, 1000);
+        });
+
+        await Promise.all(rearrangePromises);
+        await wait(2000);
+      }
+
+      // Step 8: Fireworks
+      async function showFireworks() {
+        // Hide shop background
+        await animate(shopBg, { opacity: 0 }, 800);
+
+        // Try to play video, if not available use canvas
+        fireworksVideo
+          .play()
+          .then(() => {
+            animate(fireworksVideo, { opacity: 1 }, 500);
+          })
+          .catch(() => {
+            // Use canvas fireworks
+            startCanvasFireworks();
+          });
+
+        playSound("fireworks");
+
+        // Hide all elements
+        const allElements = [
+          ...document.querySelectorAll(".mithai"),
+          ...document.querySelectorAll(".flower"),
+          ...document.querySelectorAll(".diya"),
+          thali,
+          laxmi,
+        ];
+
+        await wait(1000);
+
+        const hidePromises = allElements.map((el) =>
+          animate(el, { opacity: 0 }, 800)
+        );
+        await Promise.all(hidePromises);
+
+        await wait(1000);
+      }
+
+      // Canvas fireworks
+      function startCanvasFireworks() {
+        const canvas = fireworksCanvas;
+        const ctx = canvas.getContext("2d");
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+        canvas.style.opacity = 1;
+
+        const particles = [];
+
+        function createFirework() {
+          const x = Math.random() * canvas.width;
+          const y = Math.random() * canvas.height * 0.5;
+          const count = 30 + Math.random() * 20;
+          const color = `hsl(${Math.random() * 360}, 100%, 50%)`;
+
+          for (let i = 0; i < count; i++) {
+            const angle = (i / count) * Math.PI * 2;
+            const speed = 2 + Math.random() * 3;
+            particles.push({
+              x,
+              y,
+              vx: Math.cos(angle) * speed,
+              vy: Math.sin(angle) * speed,
+              life: 1,
+              color,
+            });
+          }
+        }
+
+        function animate() {
+          ctx.fillStyle = "rgba(0, 0, 0, 0.1)";
+          ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+          particles.forEach((p, i) => {
+            p.x += p.vx;
+            p.y += p.vy;
+            p.vy += 0.1;
+            p.life -= 0.01;
+
+            if (p.life <= 0) {
+              particles.splice(i, 1);
+              return;
+            }
+
+            ctx.fillStyle = p.color;
+            ctx.globalAlpha = p.life;
+            ctx.fillRect(p.x, p.y, 3, 3);
+          });
+
+          ctx.globalAlpha = 1;
+
+          if (Math.random() < 0.05) createFirework();
+
+          requestAnimationFrame(animate);
+        }
+
+        animate();
+      }
+
+      // Step 9: Show final text
+      async function showFinalText() {
+        await animate(finalText, { opacity: 1 }, 2000);
+      }
+
+      // Main animation sequence
+      async function startAnimation() {
+        await preloadSounds();
+
+        await showShop();
+
+        for (let i = 0; i < mithaList.length; i++) {
+          await showMithai(mithaList[i], i, mithaList.length);
+        }
+
+        await showFlowers();
+        await showDiyas();
+        await showThali();
+        await blackout();
+        await finalArrangement();
+        await showFireworks();
+        await showFinalText();
+      }
+
+      // Start on click
+      document.addEventListener(
+        "click",
+        () => {
+          startAnimation();
+        },
+        { once: true }
+      );
+
+      // Show instruction
+      const instruction = document.createElement("div");
+      instruction.style.cssText =
+        "position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); color: white; font-size: 24px; z-index: 1000; text-align: center;";
+      instruction.textContent = "Click anywhere to start";
+      document.body.appendChild(instruction);
+
+      document.addEventListener(
+        "click",
+        () => {
+          instruction.remove();
+        },
+        { once: true }
+      );
+    </script>
+  </body>
+</html>
